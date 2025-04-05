@@ -1,0 +1,19 @@
+{{#> layout}}
+  <section>
+    <h2>MY PROJECTS</h2>
+    <div class="projects-container">
+      {{#each projects}}
+        <div class="project">
+          <img src="/images/{{this.image_url}}" alt="{{this.title}}" class="project-image">
+          <div class="project-content">
+            <h3>{{this.title}}</h3>
+            <p>{{this.description}}</p>
+            {{#if this.project_url}}
+              <a href="{{this.project_url}}" target="_blank" class="project-link">View Project</a>
+            {{/if}}
+          </div>
+        </div>
+      {{/each}}
+    </div>
+  </section>
+{{/layout}}
