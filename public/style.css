@@ -1,0 +1,225 @@
+:root {
+  --black: #020303;
+  --dark-grey: #171c1c;
+  --light-grey: #a7b9b7;
+  --primary: #5cc1bb;
+  --primary-dark: #41aaa3;
+  --secondary: hsl(15deg 100% 62%);
+  --secondary-light: hsl(15deg 100% 70%);
+  --text-color: #f5fffe;
+  --space: 16px;
+  --font-size: 18px;
+}
+
+body {
+  background-color: var(--primary-dark);
+  color: var(--text-color);
+  font-size: var(--font-size);
+  line-height: 1.5;
+  padding: 0;
+  margin: 0;
+  font-family: helvetica;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+  background-color: var(--black);
+  padding: var(--space) calc(var(--space) * 3);
+  text-align: center;
+}
+
+main,
+main form {
+  border-radius: 4px;
+}
+
+h1 {
+  font-size: calc(var(--font-size) * 2.25);
+}
+h2 {
+  font-size: calc(var(--font-size) * 2);
+}
+h3 {
+  font-size: calc(var(--font-size) * 1.5);
+}
+
+a {
+  color: var(--secondary-light);
+  transition: color 200ms;
+}
+a:hover,
+a:focus {
+  color: var(--secondary);
+}
+
+button.btn,
+a.btn {
+  border: none;
+  border-radius: 4px;
+  background-color: var(--secondary-light);
+  padding: calc(var(--space) * 0.75) calc(var(--space) * 2);
+  cursor: pointer;
+  transition: background-color 200ms, transform 100ms;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-decoration: none;
+  color: var(--text-color);
+  display: inline-block;
+  text-align: center;
+}
+
+button.btn:hover,
+a.btn:hover,
+button.btn:focus,
+a.btn:focus {
+  background-color: var(--secondary);
+  transform: scale(1.05);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+button.btn-text {
+  border: none;
+  background-color: transparent;
+  color: var(--secondary-light);
+  transition: 200ms;
+  cursor: pointer;
+}
+
+button.btn-text:hover,
+button.btn-text:focus {
+  color: var(--secondary);
+}
+header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(90deg, var(--primary-dark), var(--secondary));
+  padding: var(--space);
+  margin-bottom: calc(var(--space) * 6);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+header a {
+  color: var(--text-color);
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 200ms;
+}
+
+header a:hover {
+  color: var(--secondary-light);
+}
+
+header .site-logo {
+  font-size: calc(var(--font-size) * 1.5);
+  margin: var(--space);
+  margin-right: auto;
+}
+
+.site-logo {
+  text-align: center;
+  color: var(--text-color);
+  text-decoration: none;
+  margin: calc(var(--space) * 4) auto;
+  display: block;
+  font-size: calc(var(--font-size) * 2.5);
+  font-weight: bold;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: calc(var(--space) * 3) 0;
+}
+
+.login-form .login-error {
+  color: var(--secondary-light);
+}
+
+.login-form input {
+  margin-bottom: calc(var(--space) * 2);
+  padding: calc(var(--space) * 0.5) calc(var(--space) * 1);
+}
+
+.event-card {
+  background-color: var(--dark-grey);
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: var(--space);
+  margin-bottom: var(--space);
+  transition: transform 200ms, box-shadow 200ms;
+}
+
+.event-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+}
+
+.event-card h2 {
+  color: var(--primary);
+}
+
+.event-card p {
+  color: var(--light-grey);
+}
+
+form {
+  background-color: var(--dark-grey);
+  padding: var(--space);
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+form input,
+form textarea {
+  width: 100%;
+  padding: var(--space);
+  margin-bottom: var(--space);
+  border: 1px solid var(--light-grey);
+  border-radius: 4px;
+  background-color: var(--black);
+  color: var(--text-color);
+}
+
+form input:focus,
+form textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+@media screen and (max-width: 700px) {
+  .site-logo {
+    font-size: calc(var(--font-size) * 1.25);
+    margin: 0;
+  }
+  header .site-logo {
+    font-size: var(--font-size);
+  }
+  header a {
+    margin: calc(var(--space) / 2);
+  }
+}
+
+footer {
+  background-color: var(--black);
+  color: var(--light-grey);
+  text-align: center;
+  padding: var(--space);
+  margin-top: auto;
+}
+
+footer a {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+footer a:hover {
+  color: var(--secondary);
+}

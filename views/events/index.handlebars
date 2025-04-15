@@ -1,0 +1,38 @@
+{{> header}}
+<h1>Available Events</h1>
+
+<a href="/events/new" class="btn" style="margin-bottom: 20px;">Create New Event</a>
+
+{{#if events.length}}
+  <ul style="list-style: none; padding: 0;">
+    {{#each events}}
+      <li class="event-card">
+        <h2>{{this.title}}</h2>
+        <p>{{this.description}}</p>
+        <p><strong>Location:</strong> {{this.location}}</p>
+        <p><strong>Date:</strong> {{this.date}}</p>
+        <p><strong>Creator:</strong> {{this.creator.username}}</p>
+        <div style="margin-top: 10px;">
+          {{#if this.coordinates}}
+            <iframe 
+              src="https://www.openstreetmap.org/export/embed.html?bbox={{this.coordinates.lon}},{{this.coordinates.lat}},{{this.coordinates.lon}},{{this.coordinates.lat}}&layer=mapnik" 
+              width="300" 
+              height="200" 
+              style="border: 1px solid #ccc; border-radius: 8px;"
+            >
+            </iframe>
+          {{else}}
+            <p>Unable to generate map for this location.</p>
+          {{/if}}
+        </div>
+        <div style="margin-top: 10px;">
+          <form action="/events/{{this._id}}?_method=DELETE" method="POST" style="display:inline;">
+            <button type="submit" class="btn btn-danger">Delete</button>
+          </form>
+        </div>
+      </li>
+    {{/each}}
+  </ul>
+{{else}}
+  <p>No events available.</p>
+{{/if}}

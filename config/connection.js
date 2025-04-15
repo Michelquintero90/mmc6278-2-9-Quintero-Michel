@@ -1,10 +1,10 @@
-const mongoose = require('mongoose');
-require('dotenv').config();
+import mongoose from 'mongoose';
 
-mongoose.connect(process.env.DB_URI)
-  .then(() => {
-    console.log('Connected to MongoDB');
-  })
-  .catch((error) => {
-    console.log('Error connecting to MongoDB:', error);
-  });
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/eventconnect';
+
+mongoose.connect(MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+
+export { MONGODB_URI };

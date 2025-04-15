@@ -1,0 +1,70 @@
+{{> header}}
+<h1>Create New Event</h1>
+
+{{#if error}}
+  <p class="error">{{error}}</p>
+{{/if}}
+
+<form action="/events" method="POST">
+  <div>
+    <label for="title">Title:</label>
+    <input type="text" id="title" name="title" required>
+  </div>
+  <div>
+    <label for="description">Description:</label>
+    <textarea id="description" name="description" required></textarea>
+  </div>
+  <div>
+    <label for="location">Location:</label>
+    <input type="text" id="location" name="location" required autocomplete="off">
+    <ul id="suggestions" style="border: 1px solid #ccc; max-height: 150px; overflow-y: auto; display: none;"></ul>
+  </div>
+  <div>
+    <label for="date">Date:</label>
+    <input type="datetime-local" id="date" name="date" required>
+  </div>
+  <button type="submit" class="btn btn-success">Create Event</button>
+</form>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const locationInput = document.getElementById('location');
+    const suggestionsList = document.getElementById('suggestions');
+
+    locationInput.addEventListener('input', async () => {
+      const query = locationInput.value;
+
+      if (query.length < 3) {
+        suggestionsList.style.display = 'none';
+        return;
+      }
+
+      try {
+        const response = await fetch(`/api/autocomplete?q=${encodeURIComponent(query)}`);
+        const suggestions = await response.json();
+
+        suggestionsList.innerHTML = '';
+        suggestions.forEach((suggestion) => {
+          const li = document.createElement('li');
+          li.textContent = suggestion.display_name;
+          li.style.cursor = 'pointer';
+          li.addEventListener('click', () => {
+            locationInput.value = suggestion.display_name;
+            suggestionsList.style.display = 'none';
+          });
+          suggestionsList.appendChild(li);
+        });
+
+        suggestionsList.style.display = 'block';
+      } catch (error) {
+        console.error('Error fetching suggestions:', error);
+      }
+    });
+
+    document.addEventListener('click', (event) => {
+      if (!suggestionsList.contains(event.target) && event.target !== locationInput) {
+        suggestionsList.style.display = 'none';
+      }
+    });
+  });
+</script>

@@ -1,0 +1,12 @@
+<header>
+  <a class="site-logo" href="/">
+    EVENTS PROGRAM
+  </a>
+  {{#if isLoggedIn}}
+    <a href="/events" style="margin-right: 10px; text-transform: uppercase;">Events</a>
+    <a href="/api/logout" style="text-transform: uppercase;">Logout</a>
+  {{else}}
+    <a href="/login" style="margin-right: 10px;">Login</a>
+    <a href="/signup">Sign Up</a>
+  {{/if}}
+</header>

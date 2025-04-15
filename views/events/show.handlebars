@@ -1,0 +1,61 @@
+{{> header}}
+<h1>{{event.title}}</h1>
+
+<p><strong>Description:</strong> {{event.description}}</p>
+
+{{#if event.location}}
+  <p><strong>Location:</strong> {{event.location}}</p>
+  <a 
+    href="https://www.openstreetmap.org/search?query={{event.location}}" 
+    target="_blank" 
+    class="btn btn-primary"
+  >
+    View on OpenStreetMap
+  </a>
+{{else}}
+  <p>No valid location provided for this event.</p>
+{{/if}}
+
+<p><strong>Date:</strong> {{formatDate event.date}}</p>
+<p><strong>Creator:</strong> {{event.creator.name}}</p>
+
+{{#if (eq event.creator._id ../userId)}}
+  <a href="/events/{{event._id}}/edit" class="btn btn-warning">Edit</a>
+  <form action="/events/{{event._id}}?_method=DELETE" method="POST" style="display:inline;">
+    <button type="submit" class="btn btn-danger">Delete</button>
+  </form>
+{{/if}}
+<a href="/events" class="btn btn-secondary">Back to List</a>
+
+<script>
+  document.addEventListener("DOMContentLoaded", async function () {
+    const location = "{{event.location}}";
+    console.log("Received location:", location);
+
+    if (!location) {
+      console.error("No location provided for this event.");
+      return;
+    }
+
+    try {
+      const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(location)}`);
+      const data = await response.json();
+
+      if (data.length > 0) {
+        const lat = data[0].lat;
+        const lon = data[0].lon;
+        console.log("Coordinates obtained:", { lat, lon });
+
+        const staticMapUrl = `https://staticmap.openstreetmap.de/staticmap.php?center=${lat},${lon}&zoom=15&size=600x400&markers=${lat},${lon},red`;
+        console.log("Static map URL:", staticMapUrl);
+
+        const mapImage = document.getElementById("static-map");
+        mapImage.src = staticMapUrl;
+      } else {
+        console.error("No coordinates found for the provided location.");
+      }
+    } catch (error) {
+      console.error("Error fetching coordinates:", error);
+    }
+  });
+</script>
