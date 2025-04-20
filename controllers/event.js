@@ -71,21 +71,42 @@ export async function createEvent(req, res) {
 
 export async function updateEvent(req, res) {
   try {
-    const { title, description, location, date } = req.body;
+    console.log('Updating event:', req.params.id);
+    console.log('User ID from session:', req.session.userId);
 
-    const event = await Event.findById(req.params.id);
+    console.log('Session user ID:', req.session.userId);
+    if (!req.session.userId) {
+      console.error('User is not authenticated');
+      return res.status(403).send('You are not authorized to update this event.');
+    }
+
+    const event = await Event.findById(req.params.id).populate('creator', 'username');
+    console.log('Event found:', event);
+
     if (!event) {
+      console.error('Event not found');
       return res.status(404).send('Event not found');
     }
 
-    event.title = title;
-    event.description = description;
-    event.location = location;
-    event.date = date;
+    console.log('Event creator ID:', event.creator._id.toString());
+    console.log('Session user ID:', req.session.userId);
+
+    if (event.creator._id.toString() !== req.session.userId.toString()) {
+      console.error('Unauthorized update attempt');
+      return res.status(403).send('You are not authorized to update this event.');
+    }
+
+    event.title = req.body.title;
+    event.description = req.body.description;
+    event.location = req.body.location;
+    event.date = req.body.date;
+
     await event.save();
-    res.redirect(`/events/${event.id}`);
+    console.log('Event updated successfully');
+    res.redirect('/events/my-events');
   } catch (err) {
-    res.status(500).send('Error updating event');
+    console.error('Error updating event:', err);
+    res.status(500).send('Error updating event.');
   }
 }
 
@@ -106,10 +127,24 @@ export async function deleteEvent(req, res) {
   }
 }
 
+export async function getMyEvents(req, res) {
+  try {
+    const events = await Event.find({ creator: req.session.userId })
+      .select('title description location date')
+      .populate('creator', 'username');
+    console.log('Events found:', events); 
+    res.render('events/my-events', { events: events || [] }); 
+  } catch (err) {
+    console.error('Error loading your events:', err);
+    res.render('events/my-events', { events: null, error: 'Error loading your events. Please try again later.' });
+  }
+}
+
 export default {
   getAllEvents,
   getEventById,
   createEvent,
   updateEvent,
   deleteEvent,
+  getMyEvents,
 };

@@ -1,0 +1,27 @@
+{{> header}}
+<h1>My Events</h1>
+
+{{#if error}}
+  <p class="error">{{error}}</p>
+{{else}}
+  {{#if events.length}}
+    <ul style="list-style: none; padding: 0;">
+      {{#each events}}
+        <li class="event-card">
+          <h2>{{this.title}}</h2>
+          <p>{{this.description}}</p>
+          <p><strong>Location:</strong> {{this.location}}</p>
+          <p><strong>Date:</strong> {{this.date}}</p>
+          <div style="margin-top: 10px;">
+            <a href="/events/{{this._id}}/edit" class="btn btn-warning">Edit</a>
+            <form action="/events/{{this._id}}?_method=DELETE" method="POST" style="display:inline;">
+              <button type="submit" class="btn btn-danger">Delete</button>
+            </form>
+          </div>
+        </li>
+      {{/each}}
+    </ul>
+  {{else}}
+    <p>You have not created any events yet.</p>
+  {{/if}}
+{{/if}}

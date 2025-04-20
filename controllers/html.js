@@ -1,5 +1,7 @@
 export function renderIndex(req, res) {
-  res.render('index', { isLoggedIn: !!req.session.userId });
+  const success = req.session.success; 
+  delete req.session.success; 
+  res.render('index', { isLoggedIn: !!req.session.userId, success });
 }
 
 export function renderLogin(req, res) {

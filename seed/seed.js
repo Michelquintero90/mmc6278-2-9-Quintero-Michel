@@ -14,11 +14,28 @@ if (process.env.MONGODB_URI) {
 }
 
 import User from '../models/User.js';
-import mongoose from '../config/connection.js';
+import { MONGODB_URI } from '../config/connection.js';
+import mongoose from 'mongoose';
 
-mongoose.once("open", async function () {
-  // insert a sample user
-  await User.create({ username: "banana", password: "meatloaf" });
+mongoose.connect(MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
-  mongoose.close();
+mongoose.connection.once('open', async function () {
+  console.log('Connected to MongoDB');
+
+  try {
+    await User.create({ username: 'banana', password: 'meatloaf' });
+    console.log('User created successfully');
+  } catch (err) {
+    console.error('Error creating user:', err);
+  }
+
+  try {
+    await mongoose.connection.close(); 
+    console.log('Connection to MongoDB closed');
+  } catch (err) {
+    console.error('Error closing the connection:', err);
+  }
 });

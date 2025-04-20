@@ -59,6 +59,6 @@ app.use(methodOverride('_method'));
 
 app.use('/', htmlRoutes);
 app.use('/api', apiRoutes);
-app.use('/events', eventRoutes);
+app.use('/events', eventRoutes); 
 
 export default app;

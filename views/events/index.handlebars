@@ -3,6 +3,10 @@
 
 <a href="/events/new" class="btn" style="margin-bottom: 20px;">Create New Event</a>
 
+{{#if success}}
+  <p class="success">{{success}}</p>
+{{/if}}
+
 {{#if events.length}}
   <ul style="list-style: none; padding: 0;">
     {{#each events}}

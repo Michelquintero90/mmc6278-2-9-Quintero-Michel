@@ -6,6 +6,7 @@ import { ensureAuthenticated } from '../middleware/auth.js';
 router.get('/', ensureAuthenticated, eventController.getAllEvents);
 router.get('/new', ensureAuthenticated, (req, res) => res.render('events/new'));
 router.post('/', ensureAuthenticated, eventController.createEvent);
+router.get('/my-events', ensureAuthenticated, eventController.getMyEvents);
 router.get('/:id', eventController.getEventById);
 router.get('/:id/edit', ensureAuthenticated, async (req, res) => {
   try {
